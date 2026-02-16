@@ -268,4 +268,4 @@ def user_login(request):
     else:
         form = LoginForm()
 
-    return render(request, 'authentication/manager_login.html', {'form': form})
+    return render(request, 'Authentication/manager_login.html', {'form': form})
