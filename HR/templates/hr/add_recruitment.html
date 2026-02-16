@@ -1,0 +1,201 @@
+{% extends 'base_hr.html' %}
+{% block content %}
+<style>
+  /* Base & layout */
+  body {
+    background: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+  }
+  .page-wrapper {
+    max-width: 960px;
+    margin: 50px auto;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  /* Left: Form section */
+  .form-section {
+    flex: 1 1 550px;
+    background: white;
+    padding: 40px 45px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    border-left: 6px solid #007BFF;
+
+    /* Equal height */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-section h2 {
+    margin-bottom: 30px;
+    color: #0056b3;
+    font-weight: 700;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    font-size: 28px;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 20px;
+    color: #34495e;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 8px;
+    border: 1.8px solid #d0d7df;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  }
+
+  button {
+    margin-top: auto;  /* Push button to bottom */
+    width: 100%;
+    background-color: #007BFF;
+    border: none;
+    padding: 14px 0;
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 123, 255, 0.45);
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  a.btn-secondary {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+    transition: background-color 0.3s ease;
+  }
+
+  a.btn-secondary:hover {
+    background-color: #565e64;
+  }
+
+  .alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-weight: 600;
+    box-shadow: 0 3px 12px rgba(114, 28, 36, 0.15);
+  }
+
+  .alert ul {
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  /* Right: Info Section */
+  .info-section {
+    flex: 1 1 350px;
+    background: #e9f0ff;
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: 0 8px 24px rgba(0, 123, 255, 0.1);
+    color: #244a86;
+
+    /* Center content vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .info-section h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 8px;
+  }
+
+  .info-section p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .info-section img {
+    margin-top: 30px;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .page-wrapper {
+      flex-direction: column;
+      padding: 20px;
+    }
+    .info-section, .form-section {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+    .info-section {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .info-section img {
+      max-width: 250px;
+      margin: 20px auto 0;
+    }
+  }
+</style>
+
+<div class="page-wrapper">
+  <section class="form-section">
+    <h2>{{ form_title }}</h2>
+
+    {% if form.errors %}
+    <div class="alert">
+      <ul>
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            <li><strong>{{ field|capfirst }}:</strong> {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+        {{ field }}
+      {% endfor %}
+
+      <button type="submit">💾 Save Post</button>
+      <a href="{% url 'recruitment_list' %}" class="btn-secondary">Cancel</a>
+    </form>
+  </section>
+
+
+</div>
+{% endblock %}

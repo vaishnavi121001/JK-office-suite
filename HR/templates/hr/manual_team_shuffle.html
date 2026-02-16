@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Manual Team Shuffling</h2>
+<form method="POST" action="{% url 'save_team_shuffling' %}">
+    {% csrf_token %}
+    <table class="table-auto w-full border">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2">Staff Name</th>
+                <th class="px-4 py-2">Current Manager</th>
+                <th class="px-4 py-2">Reassign Manager</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in staff_list %}
+            <tr>
+                <td class="border px-4 py-2">{{ staff.full_name }}</td>
+                <td class="border px-4 py-2">
+                    {{ staff.manager.full_name if staff.manager else "None" }}
+                </td>
+                <td class="border px-4 py-2">
+                    <select name="staff_{{ staff.id }}" class="border rounded px-2 py-1">
+                        <option value="">-- Select Manager --</option>
+                        {% for manager in manager_list %}
+                            {% if manager.department == staff.department %}
+                                <option value="{{ manager.id }}"
+                                    {% if staff.manager and staff.manager.id == manager.id %}selected{% endif %}>
+                                    {{ manager.full_name }}
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save Changes</button>
+</form>
+<a href="{% url 'manage_employees' %}" class="mt-6 inline-block text-sm text-blue-600 hover:underline">← Back to Employee Manager</a>
+{% endblock %}

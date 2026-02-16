@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Director Dashboard - JK Office Suite</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #009688;
+            --secondary-color: #00796b;
+            --accent-color: #ff9800;
+            --bg-color: #e0f2f1;
+            --text-color: #004d4d;
+            --white: #ffffff;
+            --nav-bg: #004d4d;
+            --nav-hover: #026464;
+            --shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header */
+        header {
+            background: var(--nav-bg);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 30px;
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--white);
+            margin-left: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 70px);
+            background: var(--nav-bg);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 30px;
+            font-size: 16px;
+            color: #e0f0f0;
+            text-decoration: none;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .sidebar a:hover {
+            background: var(--nav-hover);
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        /* Main */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 70px;
+            padding: 30px 40px;
+            background-color: #f9f8f2;
+            min-height: calc(100vh - 70px);
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            box-shadow: inset -2px -2px 4px rgba(255, 255, 255, 0.2),
+                        inset 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn i {
+            font-size: 18px;
+            background: var(--white);
+            color: var(--primary-color);
+            padding: 3px 7px;
+            border-radius: 50%;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        /* Overview */
+        .overview p {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 60px;
+                padding-top: 10px;
+                border-radius: 0;
+            }
+
+            .sidebar a {
+                justify-content: center;
+                padding: 15px 0;
+                font-size: 0;
+            }
+
+            .sidebar a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 60px;
+                padding: 20px;
+                border-radius: 0;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <h1>JK Office Suite — Director Dashboard</h1>
+    <nav>
+        <a href="{% url 'director_profile' %}"><i class="fas fa-user-circle"></i> <span>Profile</span></a>
+        <a href="{% url 'notifications' %}" style="position: relative;">
+            <i class="fas fa-bell"></i> <span>Notifications</span>
+            {% if notification_count > 0 %}
+                <span class="notification-badge">{{ notification_count }}</span>
+            {% endif %}
+        </a>
+        <a href="{% url 'logout_view' %}"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+    </nav>
+</header>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="{% url 'director_dashboard' %}"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+    <a href="{% url 'employee_management' %}"><i class="fas fa-users"></i> <span>Manage Employees</span></a>
+    <a href="{% url 'attendance_leave' %}"><i class="fas fa-calendar-check"></i> <span>Attendance & Leave</span></a>
+    <a href="{% url 'view_hrs' %}"><i class="fas fa-user-tie"></i> <span>HR Management</span></a>
+    <a href="{% url 'company_settings' %}"><i class="fas fa-cog"></i> <span>Settings</span></a>
+</div>
+
+<!-- Main Content -->
+<main class="main-content">
+
+    <!-- Quick Actions -->
+    <div class="card" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+        <div style="flex: 1; min-width: 280px;">
+            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <a href="{% url 'hr_register' %}" class="btn"><i class="fas fa-user-plus"></i> Add HR</a>
+                <a href="{% url 'manager_register' %}" class="btn"><i class="fas fa-user-plus"></i> Add Manager</a>
+                <a href="{% url 'staff_register' %}" class="btn"><i class="fas fa-user-plus"></i> Add Staff</a>
+            </div>
+        </div>
+
+        <!-- Dashboard Illustration -->
+        <div style="flex: 1; min-width: 300px; text-align: center;">
+            <img src="{% static 'image/director_dashboard.png' %}" alt="Dashboard Illustration" style="max-width: 100%; height: auto;" />
+        </div>
+    </div>
+
+    <!-- Employee Overview -->
+    <div class="card overview">
+        <h2><i class="fas fa-users"></i> Employee Overview</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <div style="flex: 1; min-width: 250px; background-color: #e0f7fa; padding: 20px; border-radius: 10px; box-shadow: var(--shadow);">
+                <p><i class="fas fa-users"></i> <strong>Total Employees:</strong> <span>{{ total_employees }}</span></p>
+                <p><i class="fas fa-user-tie"></i> <strong>HRs:</strong> <span>{{ total_hrs }}</span></p>
+            </div>
+            <div style="flex: 1; min-width: 250px; background-color: #fff3e0; padding: 20px; border-radius: 10px; box-shadow: var(--shadow);">
+                <p><i class="fas fa-user-cog"></i> <strong>Managers:</strong> <span>{{ total_managers }}</span></p>
+                <p><i class="fas fa-user"></i> <strong>Staffs:</strong> <span>{{ total_staffs }}</span></p>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

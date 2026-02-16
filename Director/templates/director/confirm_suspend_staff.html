@@ -1,0 +1,7 @@
+<!-- confirm_suspend_hr.html -->
+<h2>Are you sure you want to suspend {{ staff.full_name }}?</h2>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, Suspend</button>
+</form>
+<a href="{% url 'employee_management' %}">Cancel</a>

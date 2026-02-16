@@ -1,0 +1,37 @@
+<h2>Task Sheet</h2>
+<table class="table table-bordered table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>No</th><th>Task</th><th>In Time</th><th>Out Time</th>
+      <th>Start Date</th><th>Status</th><th>Due Date</th><th>Remarks</th><th>Screenshot</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.start_time }}</td>
+        <td>{{ task.end_time }}</td>
+        <td>{{ task.assigned_date }}</td>
+        <td>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="task_id" value="{{ task.id }}">
+            {{ form.status }}
+            <button type="submit" class="btn btn-sm btn-success mt-1">Update</button>
+          </form>
+        </td>
+        <td>{{ task.due_date }}</td>
+        <td>{{ task.remarks }}</td>
+        <td>
+          {% if task.screenshot %}
+            <a href="{{ task.screenshot.url }}" target="_blank">View</a>
+          {% else %}
+            Upload Required
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

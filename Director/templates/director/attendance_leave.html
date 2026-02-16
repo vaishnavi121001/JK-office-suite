@@ -1,0 +1,214 @@
+{% extends 'director/base.html' %}
+{% block title %}Attendance & Leave | JK Office Suite{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #fff8f0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #343a40;
+        border-left: 5px solid #ff8800;
+        padding-left: 12px;
+        margin-bottom: 20px;
+    }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        background-color: #ff8800;
+        border: none;
+        padding: 6px 16px;
+        border-radius: 6px;
+    }
+
+    .btn-primary:hover {
+        background-color: #e67600;
+    }
+
+    .card {
+        background: #fff;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+        font-weight: 600;
+        font-size: 16px;
+        padding: 12px 20px;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .badge {
+        padding: 6px 10px;
+        font-size: 12px;
+        border-radius: 5px;
+    }
+
+    .bg-success {
+        background-color: #28a745 !important;
+    }
+
+    .bg-danger {
+        background-color: #dc3545 !important;
+    }
+
+    .bg-warning {
+        background-color: #ffc107 !important;
+        color: #333 !important;
+    }
+
+    .text-muted {
+        font-style: italic;
+        color: #888 !important;
+    }
+</style>
+
+<div class="container">
+
+    <h2>📅 Attendance</h2>
+
+    <!-- Filter by Company Code
+    <form method="get" class="mb-4">
+        <div class="form-row">
+            <div class="col">
+                <input type="text" name="company_code" class="form-control" placeholder="Enter Company Code" value="{{ request.GET.company_code }}">
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>-->
+
+    <!-- Attendance Table -->
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">Attendance Records</div>
+        <div class="card-body">
+            {% if attendance_records %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in attendance_records %}
+                                <tr>
+                                    <td>{{ record.staff.id }}</td>
+                                    <td>{{ record.staff.username }}</td>
+                                    <td>{{ record.date|date:"d M Y" }}</td>
+                                    <td>
+                                        {% if record.status == 'Present' %}
+                                            <span class="badge bg-success">{{ record.status }}</span>
+                                        {% elif record.status == 'Absent' %}
+                                            <span class="badge bg-danger">{{ record.status }}</span>
+                                        {% elif record.status == 'Late' %}
+                                            <span class="badge bg-warning">{{ record.status }}</span>
+                                        {% else %}
+                                            {{ record.status }}
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No attendance records available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2 class="mt-5">✈️ Leave Management</h2>
+
+    <!-- Leave Applications Table -->
+    <div class="card mt-4">
+        <div class="card-header bg-secondary text-white">Leave Applications</div>
+        <div class="card-body">
+            {% if leave_applications %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Applied On</th>
+
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for leave in leave_applications %}
+                                <tr>
+                                    <td>{{ leave.staff.id }}</td>
+                                    <td>{{ leave.staff.username }}</td>
+                                    <td>{{ leave.applied_on|date:"d M Y" }}</td>
+
+                                    <td>{{ leave.start_date|date:"d M Y" }}</td>
+                                    <td>{{ leave.end_date|date:"d M Y" }}</td>
+                                    <td>
+                                        {% if leave.status == 'Approved' %}
+                                            <span class="badge bg-success">{{ leave.status }}</span>
+                                        {% elif leave.status == 'Pending' %}
+                                            <span class="badge bg-warning">{{ leave.status }}</span>
+                                        {% elif leave.status == 'Rejected' %}
+                                            <span class="badge bg-danger">{{ leave.status }}</span>
+                                        {% else %}
+                                            {{ leave.status }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No leave applications submitted.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'director/base.html' %}
+
+{% block title %}Notifications | JK Office Suite{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .notifications-wrapper {
+        max-width: 960px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .notifications-wrapper h2 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 25px;
+        border-left: 5px solid #0ca678;
+        padding-left: 12px;
+    }
+
+    .notification-card {
+        background: #f8f9fa;
+        border-left: 4px solid #adb5bd;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .notification-card.unread {
+        background: #e8f7ff;
+        border-left-color: #339af0;
+    }
+
+    .notification-card:hover {
+        background: #f1f3f5;
+    }
+
+    .notification-card h5 {
+        margin: 0 0 8px 0;
+        font-size: 16px;
+        font-weight: 500;
+        color: #212529;
+    }
+
+    .notification-card small {
+        color: #6c757d;
+        font-size: 13px;
+    }
+
+    .no-notification {
+        background: #fef3c7;
+        color: #856404;
+        padding: 16px 20px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #ffeeba;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .notifications-wrapper {
+            padding: 20px;
+        }
+
+        .notifications-wrapper h2 {
+            font-size: 22px;
+        }
+    }
+</style>
+
+<div class="notifications-wrapper">
+    <h2>🔔 Notifications</h2>
+
+    {% if notifications %}
+        {% for notification in notifications %}
+            <div class="notification-card {% if not notification.is_read %}unread{% endif %}">
+                <h5>{{ notification.message|truncatechars:100 }}</h5>
+                <small>{{ notification.created_at|timesince }} ago</small>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-notification">
+            <i class="fas fa-info-circle"></i> No notifications available.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

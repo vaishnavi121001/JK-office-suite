@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Employees - JK Office Suite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+body {
+    background: #fff8f0;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+}
+
+nav a.active {
+    color: #ff8800;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+}
+
+.container h2 {
+    font-size: 26px;
+    color: #343a40;
+    margin-bottom: 25px;
+    border-left: 4px solid #ff8800;
+    padding-left: 12px;
+}
+
+.container h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+table thead {
+    background-color: #f1f1f1;
+}
+
+table th, table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+}
+
+.action-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+.btn-edit {
+    background-color: #343a40;
+}
+
+.btn-edit:hover {
+    background-color: #23272b;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>JK Office Suite</h1>
+    <nav>
+        <a href="{% url 'director_dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="{% url 'manage_employees' %}" class="active"><i class="fas fa-users"></i> Manage Employees</a>
+        <a href="{% url 'logout_view' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Manage Employees</h2>
+
+    <!-- HRs Table -->
+    <div>
+        <h3><i class="fas fa-user-tie"></i> HRs</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Joining Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hr in hrs %}
+                <tr>
+                    <td>{{ hr.full_name }}</td>
+                    <td>{{ hr.email }}</td>
+                    <td>{{ hr.contact_number }}</td>
+                    <td>{{ hr.department }}</td>
+                    <td>{{ hr.joining_date }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{% url 'edit_hr' hr.id %}" class="btn btn-edit"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{% url 'suspend_hr' hr.id %}" class="btn btn-delete" title="Suspend HR"><i class="fas fa-user-slash"></i> Suspend</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-user-slash"></i> No HR members found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Managers Table -->
+    <div>
+        <h3><i class="fas fa-user-shield"></i> Managers</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Joining Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for manager in managers %}
+                <tr>
+                    <td>{{ manager.full_name }}</td>
+                    <td>{{ manager.email }}</td>
+                    <td>{{ manager.contact_number }}</td>
+                    <td>{{ manager.department }}</td>
+                    <td>{{ manager.joining_date }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{% url 'edit_manager' manager.id %}" class="btn btn-edit"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{% url 'suspend_manager' manager.id %}" class="btn btn-delete"><i class="fas fa-user-slash"></i> Suspend</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-user-slash"></i> No managers found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Staff Table -->
+    <div>
+        <h3><i class="fas fa-users"></i> Staff</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Joining Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for staff in staffs %}
+                <tr>
+                    <td>{{ staff.full_name }}</td>
+                    <td>{{ staff.email }}</td>
+                    <td>{{ staff.contact_number }}</td>
+                    <td>{{ staff.department }}</td>
+                    <td>{{ staff.joining_date }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{% url 'director_edit_staff' staff.id %}" class="btn btn-edit"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{% url 'suspend_staff' staff.id %}" class="btn btn-delete"><i class="fas fa-user-slash"></i> Suspend</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-user-slash"></i> No staff members found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

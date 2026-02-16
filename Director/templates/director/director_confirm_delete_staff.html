@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Staff - JK Office Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Same styling as confirm_delete_manager */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; padding: 20px; text-align: center; }
+        .confirmation-box { background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 500px; margin: 50px auto; }
+        h1 { color: #dc3545; margin-bottom: 20px; }
+        p { margin-bottom: 25px; font-size: 18px; }
+        .btn-group { display: flex; gap: 15px; justify-content: center; }
+        .btn { padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px; transition: all 0.3s; }
+        .btn-danger { background-color: #dc3545; color: white; border: none; }
+        .btn-secondary { background-color: #6c757d; color: white; border: none; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="confirmation-box">
+        <h1><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h1>
+        <p>Are you sure you want to delete staff member <strong>{{ staff.full_name }}</strong>?</p>
+        <p>This action cannot be undone.</p>
+
+        <form method="POST" style="margin-top: 30px;">
+            {% csrf_token %}
+            <div class="btn-group">
+                <a href="{% url 'employee_management' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete Staff</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

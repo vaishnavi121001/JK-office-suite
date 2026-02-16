@@ -1,0 +1,106 @@
+{% extends 'staff/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>📸 Scan QR to Mark Attendance</h2>
+
+    <div class="card p-3 shadow-sm mt-3">
+        <label for="qrInput" class="form-label">Upload QR Code Image:</label>
+        <input type="file" class="form-control" id="qrInput" accept="image/*">
+        <button class="btn btn-success mt-2" onclick="uploadQR()">✅ Submit</button>
+
+        <div id="message" class="mt-3"></div>
+    </div>
+
+    <hr>
+
+    <h4 class="mt-4">📅 Your Attendance Records</h4>
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="attendanceTable">
+                {% for record in attendance_records %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.created_at|time:"H:i:s" }}</td>
+                    <td>{{ record.status }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="3" class="text-center">No attendance records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function uploadQR() {
+        const input = document.getElementById('qrInput');
+        const messageDiv = document.getElementById('message');
+        messageDiv.innerHTML = '';
+
+        if (!input.files[0]) {
+            messageDiv.innerHTML = `<div class="alert alert-warning">⚠️ Please select a QR code image.</div>`;
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageData = e.target.result;
+
+            fetch('https://api.qrserver.com/v1/read-qr-code/', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    fileurl: imageData
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                try {
+                    const qrContent = data[0].symbol[0].data;
+                    const jsonData = JSON.parse(qrContent);
+
+                    // Send to backend
+                    fetch("{% url 'mark_attendance' %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify(jsonData)
+                    })
+                    .then(res => res.json())
+                    .then(response => {
+                        if (response.success) {
+                            messageDiv.innerHTML = `<div class="alert alert-success">✅ ${response.message}</div>`;
+                            setTimeout(() => {
+                                window.location.reload();  // Reload to see new record
+                            }, 1500);
+                        } else {
+                            messageDiv.innerHTML = `<div class="alert alert-danger">❌ ${response.message}</div>`;
+                        }
+                    });
+                } catch (err) {
+                    messageDiv.innerHTML = `<div class="alert alert-danger">❌ Invalid QR data.</div>`;
+                }
+            })
+            .catch(() => {
+                messageDiv.innerHTML = `<div class="alert alert-danger">❌ QR processing failed.</div>`;
+            });
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
+
+{% endblock %}

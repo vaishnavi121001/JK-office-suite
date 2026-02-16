@@ -1,0 +1,33 @@
+{% extends 'staff/base.html' %}
+
+{% block title %}Leave Application Status{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">My Leave Applications</h2>
+
+    <div class="list-group">
+        {% for leave in leaves %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ leave.leave_type }}</strong>
+                    <div class="text-muted small">
+                        {{ leave.start_date|date:"M d, Y" }} to {{ leave.end_date|date:"M d, Y" }}<br>
+                        Reason: {{ leave.reason|default:"N/A" }}
+                    </div>
+                </div>
+                <span class="badge 
+                    {% if leave.status == 'Approved' %}bg-success
+                    {% elif leave.status == 'Pending' %}bg-warning text-dark
+                    {% else %}bg-danger{% endif %}">
+                    {{ leave.status }}
+                </span>
+            </div>
+        {% empty %}
+            <div class="list-group-item text-center text-muted">
+                No leave applications found.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

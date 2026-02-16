@@ -1,0 +1,95 @@
+{% extends "Manager/base.html" %}
+
+{% block title %}Leave Applications{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm mb-4" style="margin-top: 20px;">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Leave Applications</h2>
+
+            <div class="list-group">
+                {% for leave in leaves %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ leave.staff.full_name }}</strong>
+                            <div class="text-muted small">
+                                {{ leave.start_date|date:"M d, Y" }} to {{ leave.end_date|date:"M d, Y" }}
+                                {% if leave.reason %} • {{ leave.reason|truncatechars:30 }}{% endif %}
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge me-3
+                                {% if leave.status == 'Approved' %}bg-success
+                                {% elif leave.status == 'Pending' %}bg-warning text-dark
+                                {% else %}bg-danger{% endif %}">
+                                {{ leave.status }}
+                            </span>
+                            {% if leave.status == 'Pending' %}
+                            <form method="POST" action="{% url 'manage_leave_status' leave.id %}" class="d-inline me-1" onsubmit="return confirmAction()">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="approve" class="btn btn-sm btn-success">Approve</button>
+                            </form>
+                            <form method="POST" action="{% url 'manage_leave_status' leave.id %}" class="d-inline" onsubmit="return confirmAction()">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger">Reject</button>
+                            </form>
+                            <form method="POST" action="{% url 'manage_leave_status' leave.id %}">
+    {% csrf_token %}
+    <div class="d-flex justify-content-end mt-2">
+        {% if leave.status == 'Pending' %}
+            <button type="submit" name="action" value="approve" class="btn btn-sm btn-success me-2">Approve</button>
+            <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger">Reject</button>
+        {% else %}
+            <span class="text-muted">Leave already {{ leave.status }}</span>
+        {% endif %}
+    </div>
+</form>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="list-group-item text-center py-4">
+                    No leave applications found
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+    .list-group-item {
+        padding: 1rem 1.25rem;
+        border-left: none;
+        border-right: none;
+    }
+    .list-group-item:first-child {
+        border-top: none;
+    }
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 0.75em;
+    }
+    .text-muted.small {
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function confirmAction() {
+        return confirm("Are you sure you want to approve or reject this leave request?");
+    }
+</script>
+{% endblock %}

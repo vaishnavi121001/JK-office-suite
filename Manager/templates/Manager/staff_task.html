@@ -1,0 +1,36 @@
+{% extends 'Manager/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>All Staff Tasks</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Staff Name</th>
+                <th>Task Title</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Submitted At</th>
+                <th>Screenshot</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.staff.full_name }}</td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.submitted_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    {% if task.screenshot %}
+                        <a href="{{ task.screenshot.url }}" target="_blank">View</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

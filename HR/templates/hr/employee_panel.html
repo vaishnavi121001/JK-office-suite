@@ -1,0 +1,149 @@
+{% extends "base_hr.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+<style>
+  body {
+    background-color: #f4f7fa;
+  }
+
+  .dashboard-header {
+    padding: 20px 0;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-header h2 {
+    font-weight: 700;
+    color: #1a1a2e;
+    font-size: 28px;
+  }
+
+  .back-btn {
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #e4e6eb;
+    color: #1a1a2e;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+  }
+
+  .back-btn:hover {
+    background-color: #d1d1d1;
+    color: #000;
+    text-decoration: none;
+  }
+
+  .action-card {
+    border: none;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 30px 20px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    transition: 0.3s ease;
+    height: 100%;
+  }
+
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .action-card i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #0d6efd;
+  }
+
+  .action-card h4 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #0d1b2a;
+  }
+
+  .action-card p {
+    font-size: 0.95rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+
+  .form-btn {
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 8px;
+    background-color: #0d6efd;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-btn:hover {
+    background-color: #0b5ed7;
+    color: white;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .dashboard-header h2 {
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .back-btn {
+      width: 100%;
+      text-align: left;
+      margin-top: 10px;
+    }
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10 mx-auto">
+      <!-- Header -->
+      <div class="dashboard-header">
+        <h2><i class="fas fa-users me-2 text-primary"></i>Employees Panel</h2>
+        <a href="{% url 'hr_dashboard' %}" class="back-btn">Back to Dashboard</a>
+      </div>
+
+      <!-- 2 Column Layout using Bootstrap -->
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="action-card h-100">
+            <i class="fas fa-user-tie"></i>
+            <h4>Register Manager</h4>
+            <p>Add new department managers to the system.</p>
+            <a href="{% url 'manager_register' %}" class="form-btn">Go to Form</a>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="action-card h-100">
+            <i class="fas fa-users"></i>
+            <h4>Register Staff</h4>
+            <p>Add new staff members to the departments.</p>
+            <a href="{% url 'staff_register' %}" class="form-btn">Go to Form</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

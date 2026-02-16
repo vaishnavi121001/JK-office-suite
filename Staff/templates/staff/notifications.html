@@ -1,0 +1,16 @@
+{% extends "staff/base.html" %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<h2>Notifications</h2>
+<ul>
+    {% for note in notifications %}
+        <li>
+            <strong>{{ note.title }}</strong> ({{ note.created_by }}) - {{ note.created_at|date:"d M, Y H:i" }}<br>
+            {{ note.message }}
+        </li>
+    {% empty %}
+        <li>No notifications available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

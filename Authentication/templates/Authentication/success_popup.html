@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Success</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script>
+        window.onload = function() {
+            alert("Registration successful! Username sent to email.");
+        }
+    </script>
+</head>
+<body class="container mt-4">
+    <h3>Welcome, {{ username }}!</h3>
+    <p>Your credentials have been sent to your registered email.</p>
+ <a href="{% url 'staff_dashboard' %}" class="btn btn-outline-secondary btn-lg">Staff Dashboard</a>
+</body>
+</html>

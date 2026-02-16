@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">My Tasks</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Remarks</th>
+                <th>Screenshot</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.remarks|default:"-" }}</td>
+                <td>
+                    {% if task.screenshot %}
+                        <a href="{{ task.screenshot.url }}" target="_blank">View</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'update_task' task.pk %}" class="btn btn-sm btn-primary">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

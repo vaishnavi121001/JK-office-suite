@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Recruitment Posts Report</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Posted</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post.title }}</td>
+                <td>{{ post.department }}</td>
+                <td>{{ post.posted_date }}</td>
+                <td>{{ post.last_date }}</td>
+                <td>{{ post.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

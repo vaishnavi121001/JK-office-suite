@@ -1,0 +1,122 @@
+{% extends 'director/base.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #fff8f0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .hr-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .hr-container h1 {
+        font-size: 26px;
+        color: #343a40;
+        border-left: 4px solid #ff8800;
+        padding-left: 12px;
+        margin-bottom: 30px;
+    }
+
+    .hr-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .hr-table th {
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 12px 15px;
+        font-size: 14px;
+        text-align: left;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+    }
+
+    .hr-table td {
+        background-color: #fdfdfd;
+        padding: 12px 15px;
+        font-size: 14px;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .hr-table tr:hover td {
+        background-color: #fff3e0;
+    }
+
+    .no-data {
+        font-style: italic;
+        color: #777;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="hr-container">
+    <h1>👩‍💼 List of All HRs</h1>
+
+    {% if hrs %}
+        <table class="hr-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Date Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hr in hrs %}
+                    <tr>
+                        <td>{{ hr.full_name }}</td>
+                        <td>{{ hr.email }}</td>
+                        <td>{{ hr.contact_number }}</td>
+                        <td>{{ hr.department }}</td>
+                        <td>{{ hr.joining_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-data">No HRs registered yet.</p>
+    {% endif %}
+</div>
+<div class="hr-container">
+    <h1>👔 List of All Directors</h1>
+
+    {% if directors %}
+        <table class="hr-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Date Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in directors %}
+                    <tr>
+                        <td>{{ d.full_name }}</td>
+                        <td>{{ d.email }}</td>
+                        <td>{{ d.contact_number }}</td>
+                        <td>{{ d.joining_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-data">No Directors registered yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

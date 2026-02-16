@@ -1,0 +1,199 @@
+{% extends 'base_hr.html' %}
+
+{% block content %}
+<style>
+    .salary-wrapper {
+        width: 100%;
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .salary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .salary-header h2 {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .salary-header .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        font-size: 16px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .search-form input {
+        width: 100%;
+        max-width: 400px;
+        padding: 14px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        margin-bottom: 25px;
+    }
+
+    .table th,
+    .table td {
+        font-size: 16px;
+        vertical-align: middle;
+        text-align: center;
+        padding: 18px 12px;
+    }
+
+    .table th {
+        background-color: #2d2f38;
+        color: #fff;
+        padding: 22px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .btn-success {
+        font-size: 15px;
+        padding: 8px 14px;
+        border-radius: 6px;
+    }
+
+    .no-records {
+        color: #888;
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+        .salary-header h2 {
+            font-size: 24px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .table th,
+        .table td {
+            font-size: 14px;
+        }
+
+        .salary-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .salary-header .button-group {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .salary-header .button-group a {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="container salary-wrapper">
+
+    <div class="salary-header">
+        <h2>💼 Salary Management</h2>
+        <div class="button-group">
+            <a href="{% url 'hr_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            <a href="{% url 'add_salary' %}" class="btn btn-primary">➕ Add Salary</a>
+        </div>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="search-form">
+        <input type="text" name="q" class="form-control" placeholder="🔍 Search by employee name..." value="{{ request.GET.q }}">
+    </form>
+
+    <!-- Salary Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Type</th>
+                    <th>Basic</th>
+                    <th>HRA</th>
+                    <th>TA</th>
+                    <th>Bonus</th>
+                    <th>Deductions</th>
+                    <th><strong>Net Salary</strong></th>
+                    <th>Payment Date</th>
+                    <th>Payslip</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for salary in salaries %}
+                <tr>
+                    <td>
+                        {% if salary.staff %}
+                            {{ salary.staff.full_name }}
+                        {% elif salary.manager %}
+                            {{ salary.manager.full_name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ salary.employee_type|title }}</td>
+                    <td>₹{{ salary.basic_salary }}</td>
+                    <td>₹{{ salary.hra }}</td>
+                    <td>₹{{ salary.ta }}</td>
+                    <td>₹{{ salary.bonus }}</td>
+                    <td>₹{{ salary.deductions }}</td>
+                    <td><strong>₹{{ salary.net_salary }}</strong></td>
+                    <td>{{ salary.payment_date }}</td>
+                    <td>
+                        <a href="{% url 'download_payslip' salary.id %}" class="btn btn-success">Download</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" class="text-center no-records">No salary records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

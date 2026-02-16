@@ -1,0 +1,161 @@
+{% extends 'base_hr.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Salary</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("{% static 'images/background.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #ffffff;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        form {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 30px 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 15px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            margin-top: 30px;
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <script>
+        function fetchEmployees() {
+            const form = document.getElementById('salaryForm');
+            form.submit();
+        }
+
+        function calculateNetSalary() {
+            let basic = parseFloat(document.getElementById("id_basic_salary").value) || 0;
+            let hra = parseFloat(document.getElementById("id_hra").value) || 0;
+            let ta = parseFloat(document.getElementById("id_ta").value) || 0;
+            let bonus = parseFloat(document.getElementById("id_bonus").value) || 0;
+            let deductions = parseFloat(document.getElementById("id_deductions").value) || 0;
+
+            let net = basic + hra + ta + bonus - deductions;
+            document.getElementById("id_net_salary").value = net.toFixed(2);
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const fields = ["id_basic_salary", "id_hra", "id_ta", "id_bonus", "id_deductions"];
+            fields.forEach(id => {
+                let input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener("input", calculateNetSalary);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Add Salary</h2>
+
+    <form id="salaryForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="id_employee_type">Employee Type:</label>
+        {{ form.employee_type }}
+        <button type="button" onclick="fetchEmployees()">Select</button>
+
+        <label for="id_employee">Employee Name:</label>
+        {{ form.employee }}
+
+        <label for="id_basic_salary">Basic Salary:</label>
+        {{ form.basic_salary }}
+
+        <label for="id_hra">HRA:</label>
+        {{ form.hra }}
+
+        <label for="id_ta">Travel Allowance:</label>
+        {{ form.ta }}
+
+        <label for="id_bonus">Bonus:</label>
+        {{ form.bonus }}
+
+        <label for="id_deductions">Deductions:</label>
+        {{ form.deductions }}
+
+        <label for="id_net_salary">Net Salary (Auto-calculated):</label>
+        {{ form.net_salary }}
+
+        <label for="id_payment_date">Payment Date:</label>
+        {{ form.payment_date }}
+
+        <button type="submit">Submit</button>
+        <a href="{% url 'salary_list' %}">← Back to Salary List</a>
+    </form>
+</body>
+</html>
+{% endblock %}

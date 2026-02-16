@@ -1,0 +1,70 @@
+{% extends "Manager/base.html" %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="w-100" style="max-width: 600px; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; border: 1px solid black;">
+        <h3 class="text-center mb-4" style="color: black; font-weight: bold;">Assign Task to {{ staff.full_name }}</h3>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label text-black" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-outline-warning">Assign Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .form-control {
+        background-color: rgba(255,255,255,0.1);
+        border: 1px solid black;
+        color: black;
+    }
+
+    .form-control:focus {
+        background-color: rgba(255,255,255,0.2);
+        color: black;
+        border-color: black;
+        box-shadow: none;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+        background-color: rgba(255,255,255,0.1);
+        color: black;
+        border: 1px solid black;
+    }
+
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    textarea:focus,
+    select:focus {
+        background-color: rgba(255,255,255,0.2);
+        border-color: black;
+        box-shadow: none;
+    }
+</style>
+{% endblock %}

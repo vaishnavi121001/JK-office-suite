@@ -1,0 +1,29 @@
+{% extends 'staff/base.html' %}
+
+{% block title %}Submit Task{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Submit Task: {{ task.title }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Remarks Field (Completion Reason) -->
+        <div class="mb-3">
+            <label for="remarks" class="form-label">Completion Reason</label>
+            <textarea class="form-control" id="remarks" name="remarks" rows="4" required></textarea>
+        </div>
+
+        <!-- Screenshot/File Upload -->
+        <div class="mb-3">
+            <label for="screenshot" class="form-label">Upload Work Screenshot/File</label>
+            <input type="file" class="form-control" id="screenshot" name="screenshot">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <a href="{% url 'staff_tasks' %}" class="btn btn-secondary mt-3">Back to Task List</a>
+</div>
+{% endblock %}

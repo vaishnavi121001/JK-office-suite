@@ -1,0 +1,137 @@
+{% extends 'Manager/base.html' %}
+
+{% block title %}Performance Review{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm" style="max-width: 800px; margin: 0 auto;">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Performance Review</h2>
+
+            <!-- Success/Error messages -->
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Performance Review Form -->
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="form-fields">
+                    {{ form.as_p }}  <!-- Renders the form fields dynamically -->
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-check-circle me-2"></i> Submit Review
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<style>
+    .card {
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        margin-top: 20px;
+    }
+
+    .form-fields p {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-fields label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+
+    .form-fields input:not([type="checkbox"]),
+    .form-fields select,
+    .form-fields textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+
+    .form-fields input:focus,
+    .form-fields select:focus,
+    .form-fields textarea:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .form-fields textarea {
+        min-height: 120px;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+        padding: 10px 24px;
+        font-weight: 500;
+    }
+
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+    }
+
+    .form-fields input[type="checkbox"] {
+        margin-right: 8px;
+        transform: scale(1.2);
+    }
+
+    .needs-validation .form-control:invalid,
+    .needs-validation .form-control.is-invalid {
+        border-color: #dc3545;
+    }
+
+    .invalid-feedback {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+        color: #dc3545;
+    }
+
+    .needs-validation .form-control:invalid ~ .invalid-feedback,
+    .needs-validation .form-control.is-invalid ~ .invalid-feedback {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}
