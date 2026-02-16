@@ -24,7 +24,12 @@ SECRET_KEY = 'django-insecure-pcn#%dxgc1h^04*gya0nf6t*15eumlufd4-mx$39#92u0d(c(i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'jk-office-suite.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
+
 
 # Application definition
 import os  # ✅ OK
@@ -123,7 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'internvaishnavi12@gmail.com'
+EMAIL_HOST_USER = 'internshubhamsanap@gmail.com'
 EMAIL_HOST_PASSWORD = 'ynrf yxnd oxwx jmnu'  # Use App Password if Gmail
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'JK Office Suite <internvaishnavi12@gmail.com>'
