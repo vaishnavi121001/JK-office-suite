@@ -48,17 +48,13 @@ A multi-role enterprise office management system built with Django and Django RE
 - MySQL
 
 ---
+## 🏗 Architecture
 
-## 📂 Project Structure
+The JK Office Suite follows a role-based architecture where Directors, HRs, Managers, and Staff interact through centralized authentication, attendance, payroll, leave management, and workflow modules.
 
-Authentication/
-Director/
-HR/
-Manager/
-Owner/
-Staff/
+### Data Flow Diagram (DFD)
 
----
+![JK Office Suite DFD](assets/Screenshot%202026-06-12%20170724.png)
 
 ## 👩‍💻 Developer
 
