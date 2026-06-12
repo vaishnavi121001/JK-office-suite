@@ -9,22 +9,21 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# ==============================
+# =========================
 # SECURITY SETTINGS
-# ==============================
+# =========================
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-secret-key')
 
 DEBUG = False
-
-ALLOWED_HOSTS = [
-    'jk-office-suite.onrender.com',
-]
+ALLOWED_HOSTS = ['*']
 
 
-# ==============================
+
+
+# =========================
 # APPLICATION DEFINITION
-# ==============================
+# =========================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -45,7 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # WhiteNoise for static files (Render)
+    # WhiteNoise (REQUIRED for Render static files)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,9 +75,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'JK_OFFICE_SUITE.wsgi.application'
 
 
-# ==============================
-# DATABASE (SQLite for now)
-# ==============================
+# =========================
+# DATABASE
+# =========================
 
 DATABASES = {
     'default': {
@@ -88,78 +87,69 @@ DATABASES = {
 }
 
 
-# ==============================
+# =========================
 # PASSWORD VALIDATION
-# ==============================
+# =========================
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
-# ==============================
+# =========================
 # INTERNATIONALIZATION
-# ==============================
+# =========================
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# ==============================
-# STATIC FILES CONFIG (IMPORTANT)
-# ==============================
+# =========================
+# STATIC FILES CONFIG
+# =========================
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# ==============================
+
+
+# =========================
 # DEFAULT PRIMARY KEY
-# ==============================
+# =========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# ==============================
+# =========================
 # EMAIL CONFIGURATION
-# ==============================
+# =========================
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'JK Office Suite'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-# ==============================
+# =========================
 # SESSION SETTINGS
-# ==============================
+# =========================
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+import os
+

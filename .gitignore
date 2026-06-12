@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+
+# Django
+db.sqlite3
+
+# Environment Variables
+.env
+
+# IDE Files
+.idea/
+.vscode/
+
+# Archive Files
+*.rar
+*.zip
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+db.sqlite3
+
+# Virtual Environment
+venv/
+.venv/
+
+#
