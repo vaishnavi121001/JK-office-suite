@@ -1,63 +1,129 @@
 # 🏢 JK Office Suite
 
-A multi-role enterprise office management system built with Django and Django REST Framework.
+### Enterprise Employee Management System
 
-## 🚀 Features
+> A Django-based enterprise platform for employee management, QR attendance, task tracking, payroll management, recruitment workflows, and organizational analytics.
 
-### Authentication
-- Multi-role login
-- Email verification
-- Role-based access control
+🌐 **Live Demo:** https://jk-office-suite.onrender.com
 
-### Attendance
-- QR Code Attendance
-- Attendance Tracking
-- Daily Reports
+---
 
-### HR Module
-- Employee Management
-- Salary Management
-- Payslip Generation
-- Recruitment Workflow
+## 📸 Preview
 
-### Manager Module
-- Task Assignment
-- Team Monitoring
-- Leave Approvals
+### 🏠 Home Page
 
-### Staff Module
-- Task Execution
-- Work Submission
-- Attendance Tracking
+![Home Page](assets/image.png)
 
-### Director Dashboard
-- Organization Analytics
-- Attendance Insights
-- Employee Monitoring
+---
+
+## ✨ Highlights
+
+🔐 Multi-Role Authentication
+
+📱 QR-Based Attendance System
+
+📋 Task Assignment & Tracking
+
+💰 Payroll & Payslip Management
+
+👥 Employee Management
+
+📄 Recruitment Workflow
+
+📊 Director Analytics Dashboard
+
+📧 Email Notifications
+
+---
+
+## 🏗 Architecture
+
+![JK Office Suite DFD](assets/Screenshot%202026-06-12%20170724.png)
+
+---
+
+## 👨‍💼 Role-Based Modules
+
+| Role | Responsibilities |
+|--------|----------------|
+| Director | Organization Analytics, Employee Oversight |
+| HR | Recruitment, Payroll, Employee Management |
+| Manager | Task Assignment, Team Monitoring |
+| Staff | Attendance, Tasks, Leave Requests |
 
 ---
 
 ## 🛠 Tech Stack
 
+**Backend**
 - Python
 - Django
 - Django REST Framework
-- HTML
-- CSS
+
+**Frontend**
+- HTML5
+- CSS3
 - Bootstrap
+
+**Database**
 - MySQL
 
+**Additional Features**
+- QR Code Attendance
+- Email Automation
+- PDF Generation
+
 ---
-## 🏗 Architecture
 
-The JK Office Suite follows a role-based architecture where Directors, HRs, Managers, and Staff interact through centralized authentication, attendance, payroll, leave management, and workflow modules.
+## 🚀 Key Workflows
 
-### Data Flow Diagram (DFD)
+### Attendance Workflow
 
-![JK Office Suite DFD](assets/Screenshot%202026-06-12%20170724.png)
+```text
+QR Attendance → Verification → Attendance Record
+```
+
+### Task Workflow
+
+```text
+Manager Assigns Task → Staff Executes → Submission → Review
+```
+
+### Leave Workflow
+
+```text
+Staff Request → Manager Review → Approval / Rejection
+```
+
+---
+
+## ⚙ Installation
+
+```bash
+git clone https://github.com/vaishnavi121001/JK-office-suite.git
+
+cd JK-office-suite
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py runserver
+```
+
+---
 
 ## 👩‍💻 Developer
 
-Vaishnavi Tijare
+**Vaishnavi Tijare**
 
-GitHub: https://github.com/vaishnavi121001
+Software Developer | Python • Django • Next.js • AI Applications
+
+📧 tijarevaishnavi12@gmail.com
+
+💼 LinkedIn  
+https://www.linkedin.com/in/vaishnavi-tijare-71b4522a9
+
+---
+
+⭐ If you found this project interesting, consider giving it a star.
